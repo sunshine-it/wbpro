@@ -12,7 +12,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store'],
+            'except' => ['show', 'create', 'store', 'index'],
         ]);
 
         // 只让未登录用户访问注册页面
@@ -31,6 +31,15 @@ class UsersController extends Controller
     public function show(User $user)
     {
         return view('users.show', compact('user'));
+    }
+
+    // 用户列表
+    public function index()
+    {
+        // $users = User::all();
+        $users = User::paginate(6);
+        // dd(compact('users'));
+        return view('users.index', compact('users'));
     }
 
     // 用户数据验证
