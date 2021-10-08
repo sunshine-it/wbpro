@@ -21,6 +21,11 @@ class UsersController extends Controller
         $this->middleware('guest',[
             'only' => ['create'],
         ]);
+
+        // 注册限流 规则是一个小时内只能提交 10 次请求
+        $this->middleware('throttle:10,60', [
+            'only' => ['store']
+        ]);
     }
 
     // 用户创建

@@ -12,6 +12,19 @@ use Carbon\Carbon;
 
 class PasswordController extends Controller
 {
+    public function __construct()
+    {
+        // 1分钟内两次
+        $this->middleware('throttle:2,1', [
+            'only' => ['showLinkRequestForm']
+        ]);
+
+        // 发送密码重置邮件，限流规则为 —— 10 分钟内只能尝试 3 次
+        $this->middleware('throttle:3,10', [
+            'only' => ['sendResetLinkEmail']
+        ]);
+    }
+
     // 填写 Email 表单方法
     public function showLinkRequestForm()
     {
