@@ -9,6 +9,9 @@ class Status extends Model
 {
     use HasFactory;
 
+    // 允许更新微博的 content 字段
+    protected $fillable = ['content'];
+
     public function user()
     {
         // 一条微博属于一个用户
