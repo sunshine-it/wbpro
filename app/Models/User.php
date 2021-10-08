@@ -69,4 +69,11 @@ class User extends Authenticatable
         // 一个用户拥有多条微博
         return $this->hasMany(Status::class);
     }
+
+    // 动态流原型
+    public function feed()
+    {
+        return $this->statuses()
+                ->orderBy('created_at', 'desc');
+    }
 }
