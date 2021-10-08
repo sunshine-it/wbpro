@@ -37,7 +37,11 @@ class UsersController extends Controller
     // 查看用户
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        // 微博动态数据
+        $statuses = $user->statuses()
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     // 用户列表
