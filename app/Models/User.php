@@ -63,4 +63,10 @@ class User extends Authenticatable
         $hash = strtolower(trim($this->attributes['name']));
         return "https://ui-avatars.com/api?name=$hash&size=$size&background=random";
     }
+
+    public function statuses()
+    {
+        // 一个用户拥有多条微博
+        return $this->hasMany(Status::class);
+    }
 }
