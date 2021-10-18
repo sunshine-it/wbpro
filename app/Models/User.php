@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -73,8 +74,13 @@ class User extends Authenticatable
     // 动态流原型
     public function feed()
     {
-        return $this->statuses()
-                ->orderBy('created_at', 'desc');
+        // return $this->statuses()
+        //         ->orderBy('created_at', 'desc');
+        $user_ids = $this->followings->pluck('id')->toArray();
+        array_push($user_ids, $this->id);
+        return Status::whereIn('user_id', $user_ids)
+                                ->with('user')
+                                ->orderBy('created_at', 'desc');
     }
 
     //以粉丝为例，一个用户能够拥有多个粉丝(粉丝关系)
